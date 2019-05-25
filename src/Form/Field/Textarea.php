@@ -33,7 +33,11 @@ class Textarea extends Field
     public function render()
     {
         if (is_array($this->value)) {
-            $this->value = json_encode($this->value, JSON_PRETTY_PRINT);
+            if (array_key_exists(app()->getLocale(), $this->value)) {
+                $this->value = $this->value[app()->getLocale()];
+            } else {
+                $this->value = json_encode($this->value, JSON_PRETTY_PRINT);
+            }
         }
 
         return parent::render()->with(['rows' => $this->rows]);
